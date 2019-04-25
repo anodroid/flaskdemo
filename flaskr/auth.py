@@ -20,7 +20,7 @@ def register():
         elif db.execute(
             'SELECT id FROM user WHERE username = ?', (username,)
         ).fetchone() is not None:
-            error = 'User {} is already registered.'.format(username)
+            error = 'User {0} is already registered.'.format(username)
         
         if error is None:
             db.execute(
@@ -53,14 +53,14 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('blog.index'))
         
         flash(error)
     
     return render_template('auth/login.html')
 
 @bp.before_app_request
-def load_logged_in_uesr():
+def load_logged_in_user():
     user_id = session.get('user_id')
 
     if user_id is None:
