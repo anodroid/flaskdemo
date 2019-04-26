@@ -54,11 +54,11 @@ def test_create(client, auth, app):
 def test_update(client, auth, app):
     auth.login()
     assert client.get('/1/update').status_code == 200
-    client.post('/update', data={'title':'updated','body':''})
+    client.post('/1/update', data={'title':'updated','body':''})
 
     with app.app_context():
         db = get_db()
-        count = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
+        post = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
         assert post['title'] == 'updated'
 
 @pytest.mark.parametrize('path',(
